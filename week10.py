@@ -1,5 +1,13 @@
-import pandas as pd
+import seaborn as sns
 
-df = pd.DataFrame({'국':[7, 6, 7], '영':[2, 4, 8], '수':[3, 5, 9], '화':[10, 3, 11]}, index=[1, 2, 3])
-print(df)
-print(df.apply(lambda n: n*n))
+mpg = sns.load_dataset('mpg')
+# print(mpg.head())
+# print(mpg.info())
+# print(mpg.describe())
+# print(mpg['cylinders'].value_counts())
+print(mpg[mpg['horsepower'].isnull()])
+mpg['horsepower'] = mpg['horsepower'].fillna(
+    mpg.groupby('cylinders')['horsepower'].transform('median')
+)
+print(mpg.info())
+print(mpg[mpg['horsepower'].isnull()])
